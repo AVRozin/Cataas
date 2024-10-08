@@ -17,14 +17,16 @@ def load_img(url):
 
 
 def open_new_window():
-    img = load_img(url)
+    tag = tag_entry.get()
+    url_tag = f'https://cataas.com/cat/{tag}' if tag else 'https://cataas.com/cat'
+    img = load_img(url_tag)
     if img:
-        new_window = Toplevel
+        new_window = Toplevel()
         new_window.title('Картинка с котом')
         new_window.geometry('600x480')
         label = Label(new_window, image = img)
-        label.pack()
         label.image = img
+        label.pack()
 
 
 def exit():
@@ -35,6 +37,11 @@ w = Tk()
 w.title = ('Коты')
 w.geometry('700x500')
 
+tag_entry = Entry()
+tag_entry.pack()
+
+load_button = Button(text = 'Загрузить по тегу', command = open_new_window)
+load_button.pack()
 
 menu_bar = Menu(w)
 w.config(menu = menu_bar)
@@ -44,15 +51,6 @@ file_menu.add_command(label = 'Загрузить фото', command = open_new_
 file_menu.add_separator()
 file_menu.add_command(label = 'Выход', command = exit)
 
-# update_button = Button(text = 'Новый кот', command = set_img)
-# update_button.pack()
-
-Button(text = 'Закрыть', command = w.destroy).pack()
-
-
 url = 'https://cataas.com/cat'
-img = load_img(url)
-
-set_img()
 
 w.mainloop()
