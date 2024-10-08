@@ -9,17 +9,21 @@ def load_img(url):
         resp = requests.get(url)
         image_data = BytesIO(resp.content)
         img = Image.open(image_data)
-
         img.thumbnail((600, 480), Image.Resampling.LANCZOS)
         return ImageTk.PhotoImage(img)
     except Exception as e:
         print(f'Ошибка при загрузке файла {e}')
+        return None
 
 
-def set_img():
+def open_new_window():
     img = load_img(url)
     if img:
-        label.config(image=img)
+        new_window = Toplevel
+        new_window.title('Картинка с котом')
+        new_window.geometry('600x480')
+        label = Label(new_window, image = img)
+        label.pack()
         label.image = img
 
 
@@ -31,14 +35,12 @@ w = Tk()
 w.title = ('Коты')
 w.geometry('700x500')
 
-label = Label()
-label.pack()
 
 menu_bar = Menu(w)
 w.config(menu = menu_bar)
-file_menu = Menu(menu_bar, tearoff 0)
+file_menu = Menu(menu_bar, tearoff = 0)
 menu_bar.add_cascade(label = 'Файл', menu = file_menu)
-file_menu.add_command(label = 'Загрузить фото', command = set_img)
+file_menu.add_command(label = 'Загрузить фото', command = open_new_window)
 file_menu.add_separator()
 file_menu.add_command(label = 'Выход', command = exit)
 
